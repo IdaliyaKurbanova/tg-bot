@@ -5,9 +5,20 @@ from aiogram import types
 from datetime import datetime
 
 
-def site_url_kb():
+def site_url_kb(**kwargs):
     url_builder = InlineKeyboardBuilder()
-    url_builder.button(text="Aviasales", url="https://www.aviasales.ru/")
+    if len(kwargs['departure_at']) > 7:
+        departure_date = "".join(kwargs['departure_at'][-5:].split("-"))
+        print(departure_date)
+        url_builder.button(text="Aviasales",
+                           url=f"https://www.aviasales.ru/search/{kwargs['origin']}"
+                               f"{reversed(departure_date)}{kwargs['destination']}1")
+    else:
+        departure_date = kwargs['departure_at'][-2:]
+        print(departure_date)
+        url_builder.button(text="Aviasales",
+                           url=f"https://www.aviasales.ru/search/{kwargs['origin']}"
+                               f"01{departure_date}{kwargs['destination']}1")
     return url_builder.as_markup()
 
 
@@ -15,8 +26,14 @@ def group_by_kb():
     kb_builder = InlineKeyboardBuilder()
     kb_builder.row(InlineKeyboardButton(text="Дата отправления", callback_data="departure_at"))
     kb_builder.row(InlineKeyboardButton(text="Дата возвращения", callback_data="return_at"))
-    kb_builder.row(InlineKeyboardButton(text="По месяцам", callback_data="month"))
     return kb_builder.as_markup()
+
+
+def date_choice_kb():
+    type_kb_builder = InlineKeyboardBuilder()
+    type_kb_builder.row(InlineKeyboardButton(text="Точная дата", callback_data="exact_date"))
+    type_kb_builder.row(InlineKeyboardButton(text="Только месяц", callback_data="month"))
+    return type_kb_builder.as_markup()
 
 
 async def create_calendar(user: types.User) -> SimpleCalendar:

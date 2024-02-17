@@ -4,7 +4,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from config_data import config
 from handlers.default_handlers.default_handlers import default_router
-from handlers.custom_handlers.low import low_router
+from handlers.custom_handlers.low_high_custom import low_router
 from database.models import create_db
 from database.codes_creation import necessary_codes_creation
 
