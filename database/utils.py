@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from database.models import User, City, Airline, db_engine, History
 from sqlalchemy.orm import sessionmaker
 
@@ -36,8 +36,14 @@ class CityMethods:
     @staticmethod
     def get_city_code(city_name):
         with Session() as session:
-            city_code = session.query(City).filter(City.name == city_name).first()
-            return city_code.code
+            city = session.query(City).filter(City.name == city_name).first()
+            return city.code
+
+    @staticmethod
+    def get_city_name(city_code):
+        with Session() as session:
+            city = session.query(City).filter(City.code == city_code).first()
+            return city.name
 
 
 class HistoryMethods:
@@ -50,6 +56,11 @@ class HistoryMethods:
             session.add(new_history)
             session.commit()
 
-
+    @staticmethod
+    def get_user_history(user_tg_id):
+        with Session() as session:
+            user_history = session.query(History).filter(
+                History.user_tg_id == user_tg_id).order_by(desc(History.created_at)).limit(5)
+            return user_history
 
 

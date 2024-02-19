@@ -5,21 +5,32 @@ from aiogram import types
 from datetime import datetime
 
 
-def site_url_kb(**kwargs):
+def site_url_kb(return_date="", **kwargs):
     url_builder = InlineKeyboardBuilder()
     if len(kwargs['departure_at']) > 7:
-        departure_date = "".join(kwargs['departure_at'][-5:].split("-"))
-        print(departure_date)
-        url_builder.button(text="Aviasales",
-                           url=f"https://www.aviasales.ru/search/{kwargs['origin']}"
-                               f"{reversed(departure_date)}{kwargs['destination']}1")
+        departure_list = kwargs['departure_at'][-5:].split("-")
+        departure_date = "".join([departure_list[1], departure_list[0]])
     else:
-        departure_date = kwargs['departure_at'][-2:]
-        print(departure_date)
-        url_builder.button(text="Aviasales",
-                           url=f"https://www.aviasales.ru/search/{kwargs['origin']}"
-                               f"01{departure_date}{kwargs['destination']}1")
+        departure_date = "01" + kwargs['departure_at'][-2:]
+    if "return_at" in kwargs.keys():
+        return_at = kwargs['return_at']
+        if len(return_at) > 7:
+            return_list = return_at[-5:].split("-")
+            return_date = "".join([return_list[1], return_list[0]])
+        else:
+            return_date = "01" + return_at[-2:]
+
+    url_builder.button(text="Aviasales",
+                       url=f"https://www.aviasales.ru/search/{kwargs['origin']}"
+                           f"{departure_date}{kwargs['destination']}{return_date}1")
     return url_builder.as_markup()
+
+
+def y_n_kb():
+    kb_builder = InlineKeyboardBuilder()
+    kb_builder.row(InlineKeyboardButton(text="Да", callback_data="Да"))
+    kb_builder.row(InlineKeyboardButton(text="Нет", callback_data="Нет"))
+    return kb_builder.as_markup()
 
 
 def group_by_kb():
@@ -46,3 +57,19 @@ async def create_calendar(user: types.User) -> SimpleCalendar:
 async def start_calendar_kb(user: types.User) -> InlineKeyboardMarkup:
     date_now = datetime.now()
     return await (await create_calendar(user)).start_calendar(year=date_now.year, month=date_now.month)
+
+
+def repeat_question_kb():
+    kb_builder = InlineKeyboardBuilder()
+    kb_builder.row(InlineKeyboardButton(text="Да", callback_data="repeat_request_again"))
+    kb_builder.row(InlineKeyboardButton(text="Нет", callback_data="finish_command"))
+    return kb_builder.as_markup()
+
+
+def request_number_kb(list_length: int):
+    kb_builder = InlineKeyboardBuilder()
+    for num in range(1, list_length + 1):
+        kb_builder.row(InlineKeyboardButton(text=f"{num}", callback_data=str(num)))
+
+    return kb_builder.as_markup()
+

@@ -57,7 +57,7 @@ class APIResult:
                                  f"Авиакомпания (первая - при пересадках): {AirlineMethods.get_airline_name(flight['airline'])}\n"
                                  f"Дата вылета туда: {datetime.fromisoformat(flight['departure_at']).strftime('%d-%m-%Y %H:%M')}\n"
                                  f"Дата вылета обратно: {datetime.fromisoformat(flight['return_at']).strftime('%d-%m-%Y %H:%M')}\n"
-                                 f"Время в пути туда+обратно: {flight['duration'] // 60} ч {flight['duration'] % 60} мин. ({transfers_suffix(flight['return_transfers'])})\n"
+                                 f"Время в пути туда+обратно: {flight['duration'] // 60} ч {flight['duration'] % 60} мин.\n"
                                  for flight in response]
             else:
                 selected_data = [f"Цена: {flight['price']}\n "
@@ -75,6 +75,7 @@ class APIResult:
         url = (f'http://api.travelpayouts.com/v1/prices/direct?{data_str}'
                f'&token={config.API_KEY}')
         response = json.loads(requests.request("GET", url).text)['data']
+        print(response)
         if response:
             response = response[kwargs['destination']]
             if "return_at" in kwargs.keys():
