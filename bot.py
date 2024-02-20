@@ -8,8 +8,6 @@ from config_data import config
 from handlers.default_handlers.default_handlers import default_router
 from handlers.custom_handlers.low_high_custom import low_router
 from handlers.custom_handlers.history import history_router
-from database.models import create_db
-from database.codes_creation import necessary_codes_creation
 
 
 async def main():
@@ -24,8 +22,6 @@ async def main():
     bot = Bot(token=config.BOT_TOKEN)
     await bot.set_my_commands([BotCommand(command='start', description='Запустить бота'),
                                BotCommand(command='help', description='Помощь')])
-    # create_db()
-    # necessary_codes_creation()
     await dp.start_polling(bot)
 
 
