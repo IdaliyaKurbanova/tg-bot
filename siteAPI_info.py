@@ -93,33 +93,6 @@ class APIResult:
         return response
 
     @staticmethod
-    def get_custom_tickets_detailed(**kwargs):
-        data_list = [f'{name}={value}' for name, value in kwargs.items() if name != "one_way"]
-        data_str = "&".join(data_list)
-        url = (f'https://api.travelpayouts.com/aviasales/v3/grouped_prices?{data_str}'
-               f'&token={config.API_KEY}')
-        response = json.loads(requests.request("GET", url).text)['data']
-        if response:
-            if "return_at" in kwargs.keys():
-                selected_data = [f"Дата: {key}\n "
-                                 f"  Цена за 2 билета: {value['price']}\n "
-                                 f"  Авиакомпания (первая - при пересадках): {AirlineMethods.get_airline_name(value['airline'])}\n"
-                                 f"  Дата вылета туда: {datetime.fromisoformat(value['departure_at']).strftime('%d-%m-%Y %H:%M')}\n"
-                                 f"  Время в воздухе туда: {value['duration_to'] // 60} ч {value['duration_to'] % 60} мин. ({transfers_suffix(value['transfers'])})\n"
-                                 f"  Дата вылета обратно: {datetime.fromisoformat(value['return_at']).strftime('%d-%m-%Y %H:%M')}\n"
-                                 f"  Время в воздухе обратно: {value['duration_back'] // 60} ч {value['duration_back'] % 60} мин. ({transfers_suffix(value['return_transfers'])})\n"
-                                 for key, value in response.items()]
-            else:
-                selected_data = [f"Дата: {key}\n "
-                                 f"  Цена: {value['price']}\n "
-                                 f"  Авиакомпания (первая - при пересадках): {AirlineMethods.get_airline_name(value['airline'])}\n"
-                                 f"  Дата и время вылета: {datetime.fromisoformat(value['departure_at']).strftime('%d-%m-%Y %H:%M')}\n"
-                                 f"  Общее время в пути: {value['duration'] // 60} ч {value['duration'] % 60} мин. ({transfers_suffix(value['transfers'])})\n"
-                                 for key, value in response.items()]
-            return selected_data
-        return response
-
-    @staticmethod
     def get_custom_tickets_short(**kwargs):
         data_list = [f'{name}={value}' for name, value in kwargs.items() if name != "one_way"]
         data_str = "&".join(data_list)

@@ -21,7 +21,6 @@ requests_description = {"low": "Самый дешёвый билет", "high": "
 @history_router.message(StateFilter(None), Command("history"))
 async def history_command(message: Message, state: FSMContext):
     user_history = HistoryMethods.get_user_history(message.from_user.id)
-    print(message.from_user.id)
     params_list = []
 
     if user_history.first() is not None:
@@ -52,7 +51,6 @@ async def date_type_choice(callback: CallbackQuery, state: FSMContext):
     if answer == 'repeat_request_again':
         if len(params_data['params_list']) == 1:
             await callback.message.answer(text="Выполняю запрос...")
-            print(params_data['params_list'])
             await state.set_data({})
             await state.update_data(params_data['params_list'][0])
             api_result = await find_api_results(callback.message, state)
@@ -70,7 +68,6 @@ async def date_type_choice(callback: CallbackQuery, state: FSMContext):
 async def date_type_choice(callback: CallbackQuery, state: FSMContext):
     req_num = int(callback.data)
     params_data = await state.get_data()
-    print(params_data['params_list'][req_num - 1])
     await state.set_data({})
     await state.update_data(params_data['params_list'][req_num - 1])
     await callback.message.answer(text="Спасибо, выполняю...")

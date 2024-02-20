@@ -75,12 +75,9 @@ async def answer_to_user(message: Message, state: FSMContext, api_result, defaul
     else:
         if user_data.get("request") in ["low", "high"]:
             if not_defined_by_user is False:
-                print("Мы доходим сюда?")
-                print(user_data)
                 for ticket in api_result[:default_num]:
                     await message.answer(text=ticket)
             else:
-                print(user_data)
                 for ticket in api_result:
                     await message.answer(text=ticket)
         else:
