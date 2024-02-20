@@ -1,5 +1,6 @@
 # Добавить кнопки
 from aiogram import F, Router
+import logging
 from aiogram.filters import Command, StateFilter
 from aiogram.handlers.message import Message
 from aiogram.fsm.context import FSMContext
@@ -14,6 +15,8 @@ from keyboards.inline.inline_keyboards import (site_url_kb, create_calendar, sta
 import json
 from aiogram_calendar import SimpleCalendarCallback
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 low_router = Router()
 

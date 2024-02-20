@@ -13,7 +13,7 @@ from handlers.custom_handlers.history import history_router
 async def main():
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     )
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_routers(low_router)
