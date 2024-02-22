@@ -1,3 +1,8 @@
+"""
+Данный модуль представляет собой конфигурационный файл, который хранит и получает из переменных окружения (файл .env)
+константы, необходимые для работы бота.
+"""
+
 import os
 from dotenv import load_dotenv, find_dotenv
 
@@ -6,7 +11,7 @@ if not find_dotenv():
 else:
     load_dotenv()
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-API_KEY = os.getenv("API_KEY")
+BOT_TOKEN: str = os.getenv("BOT_TOKEN")
+API_KEY: str = os.getenv("API_KEY")
 
 

@@ -1,3 +1,7 @@
+"""
+Модуль, в котором инициализируется и запускается бот.
+"""
+
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher
@@ -16,12 +20,13 @@ async def main():
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     )
     dp = Dispatcher(storage=MemoryStorage())
+    dp.include_routers(default_router)
     dp.include_routers(low_router)
     dp.include_routers(history_router)
-    dp.include_routers(default_router)
     bot = Bot(token=config.BOT_TOKEN)
     await bot.set_my_commands([BotCommand(command='start', description='Запустить бота'),
-                               BotCommand(command='help', description='Помощь')])
+                               BotCommand(command='help', description='Помощь'),
+                               BotCommand(command='exit', description='Завершить запрос')])
     await dp.start_polling(bot)
 
 

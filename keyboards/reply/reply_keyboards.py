@@ -1,7 +1,14 @@
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
+"""
+Модуль с reply-кнопками.
+"""
+
+from aiogram.utils.keyboard import ReplyKeyboardBuilder, ReplyKeyboardMarkup
 
 
-def main_keyboard():
+def main_keyboard() -> ReplyKeyboardMarkup:
+    """
+    Функция создает клавиатуру с основными командами.
+    """
     main_kb_builder = ReplyKeyboardBuilder()
     main_kb_builder.button(text="/low")
     main_kb_builder.button(text="/high")
@@ -10,8 +17,3 @@ def main_keyboard():
     return main_kb_builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
 
 
-def y_n_kb():
-    y_n_kb_builder = ReplyKeyboardBuilder()
-    y_n_kb_builder.button(text="Да")
-    y_n_kb_builder.button(text="Нет")
-    return y_n_kb_builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
