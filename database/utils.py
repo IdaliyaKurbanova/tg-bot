@@ -50,7 +50,9 @@ class AirlineMethods:
         :return: название авиакомпании
         """
         with Session() as session:
-            airline_name = session.query(Airline).filter(Airline.code == airline_code).first()
+            airline_name = (
+                session.query(Airline).filter(Airline.code == airline_code).first()
+            )
             return airline_name.name
 
 
@@ -84,8 +86,9 @@ class CityMethods:
 
 class HistoryMethods:
     """
-     Класс с методами для осуществления запросов в базу данных по таблице histories
+    Класс с методами для осуществления запросов в базу данных по таблице histories
     """
+
     @staticmethod
     def create_history(search_params, search_result, user_tg_id) -> None:
         """
@@ -96,8 +99,11 @@ class HistoryMethods:
         :return: None
         """
         with Session() as session:
-            new_history = History(user_tg_id=user_tg_id, search_params=search_params,
-                                  search_result=search_result)
+            new_history = History(
+                user_tg_id=user_tg_id,
+                search_params=search_params,
+                search_result=search_result,
+            )
             session.add(new_history)
             session.commit()
 
@@ -109,8 +115,10 @@ class HistoryMethods:
         :return: 5 последних запросов пользователя
         """
         with Session() as session:
-            user_history = session.query(History).filter(
-                History.user_tg_id == user_tg_id).order_by(desc(History.created_at)).limit(5)
+            user_history = (
+                session.query(History)
+                .filter(History.user_tg_id == user_tg_id)
+                .order_by(desc(History.created_at))
+                .limit(5)
+            )
             return user_history
-
-

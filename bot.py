@@ -24,11 +24,15 @@ async def main():
     dp.include_routers(low_router)
     dp.include_routers(history_router)
     bot = Bot(token=config.BOT_TOKEN)
-    await bot.set_my_commands([BotCommand(command='start', description='Запустить бота'),
-                               BotCommand(command='help', description='Помощь'),
-                               BotCommand(command='exit', description='Завершить запрос')])
+    await bot.set_my_commands(
+        [
+            BotCommand(command="start", description="Запустить бота"),
+            BotCommand(command="help", description="Помощь"),
+            BotCommand(command="exit", description="Завершить запрос"),
+        ]
+    )
     await dp.start_polling(bot)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     asyncio.run(main())

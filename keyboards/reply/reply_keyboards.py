@@ -15,5 +15,3 @@ def main_keyboard() -> ReplyKeyboardMarkup:
     main_kb_builder.button(text="/custom")
     main_kb_builder.button(text="/history")
     return main_kb_builder.as_markup(resize_keyboard=True, one_time_keyboard=True)
-
-
