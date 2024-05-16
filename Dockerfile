@@ -11,6 +11,5 @@ RUN pip install -r requirements.txt
 
 COPY bot_project .
 
-RUN python db_creation.py
-
+CMD ["python", "db_creation.py"]
 CMD ["python", "bot.py"]
